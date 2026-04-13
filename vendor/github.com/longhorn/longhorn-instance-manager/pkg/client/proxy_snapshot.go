@@ -13,6 +13,12 @@ import (
 
 func (c *ProxyClient) VolumeSnapshot(dataEngine, engineName, volumeName, serviceAddress,
 	volumeSnapshotName string, labels map[string]string, freezeFilesystem bool) (snapshotName string, err error) {
+	return c.VolumeSnapshotWithUserCreated(dataEngine, engineName, volumeName, serviceAddress,
+		volumeSnapshotName, labels, freezeFilesystem, true)
+}
+
+func (c *ProxyClient) VolumeSnapshotWithUserCreated(dataEngine, engineName, volumeName, serviceAddress,
+	volumeSnapshotName string, labels map[string]string, freezeFilesystem, userCreated bool) (snapshotName string, err error) {
 	input := map[string]string{
 		"engineName":     engineName,
 		"volumeName":     volumeName,
@@ -58,6 +64,7 @@ func (c *ProxyClient) VolumeSnapshot(dataEngine, engineName, volumeName, service
 			Name:             volumeSnapshotName,
 			Labels:           labels,
 			FreezeFilesystem: freezeFilesystem,
+			UserCreated:      &userCreated,
 		},
 	}
 	ctx, cancel := getContextWithGRPCTimeout(c.ctx)

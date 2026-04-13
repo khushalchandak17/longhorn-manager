@@ -10,8 +10,13 @@ import (
 
 func (p *Proxy) SnapshotCreate(e *longhorn.Engine, name string, labels map[string]string,
 	freezeFilesystem bool) (string, error) {
-	return p.grpcClient.VolumeSnapshot(string(e.Spec.DataEngine), e.Name, e.Spec.VolumeName, p.DirectToURL(e),
-		name, labels, freezeFilesystem)
+	return p.SnapshotCreateWithUserCreated(e, name, labels, freezeFilesystem, true)
+}
+
+func (p *Proxy) SnapshotCreateWithUserCreated(e *longhorn.Engine, name string, labels map[string]string,
+	freezeFilesystem, userCreated bool) (string, error) {
+	return p.grpcClient.VolumeSnapshotWithUserCreated(string(e.Spec.DataEngine), e.Name, e.Spec.VolumeName, p.DirectToURL(e),
+		name, labels, freezeFilesystem, userCreated)
 }
 
 func (p *Proxy) SnapshotList(e *longhorn.Engine) (snapshots map[string]*longhorn.SnapshotInfo, err error) {
