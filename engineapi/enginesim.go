@@ -173,6 +173,11 @@ func (e *EngineSimulator) SnapshotCreate(engine *longhorn.Engine, name string, l
 	return "", errors.New(ErrNotImplement)
 }
 
+func (e *EngineSimulator) SnapshotCreateWithUserCreated(engine *longhorn.Engine, name string, labels map[string]string,
+	freezeFilesystem, userCreated bool) (string, error) {
+	return "", errors.New(ErrNotImplement)
+}
+
 func (e *EngineSimulator) SnapshotList(engine *longhorn.Engine) (map[string]*longhorn.SnapshotInfo, error) {
 	return nil, errors.New(ErrNotImplement)
 }

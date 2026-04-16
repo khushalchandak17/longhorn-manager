@@ -17,6 +17,17 @@ import (
 // TODO: Deprecated, replaced by gRPC proxy
 func (e *EngineBinary) SnapshotCreate(engine *longhorn.Engine, name string, labels map[string]string,
 	freezeFilesystem bool) (string, error) {
+	return e.SnapshotCreateWithUserCreated(engine, name, labels, freezeFilesystem, true)
+}
+
+// SnapshotCreateWithUserCreated calls engine binary
+// TODO: Deprecated, replaced by gRPC proxy
+func (e *EngineBinary) SnapshotCreateWithUserCreated(engine *longhorn.Engine, name string, labels map[string]string,
+	freezeFilesystem, userCreated bool) (string, error) {
+	if !userCreated {
+		logrus.Warn("Engine binary snapshot create does not support userCreated=false; falling back to legacy behavior")
+	}
+
 	args := []string{"snapshot", "create"}
 	for k, v := range labels {
 		args = append(args, "--label", k+"="+v)
